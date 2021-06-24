@@ -17,6 +17,7 @@ const _getData = (file) => {
  * specify tag count (max 30)
  * randomize
  * add duplicate removal
+ * login if no cookie data
 */
 
 /* Format file containing all hashtags to a neat list */
@@ -30,13 +31,14 @@ const saveToJSON = async (tags) => {
   console.log(Object.assign({}, ...json)) */
 }
 
-const run = () => {
+const run = async () => {
   let data = _getData('./hashtags.txt')
   let hashtags = _getTags(data)
 
   let tags = find(hashtags, ['book'])
 
-  updateData(tags)
+  await updateData(tags)
+  process.exit()
 }
 
 run()
