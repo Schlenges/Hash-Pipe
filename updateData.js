@@ -46,7 +46,7 @@ const login = async (page, username, password) => {
 const _delay = (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms))
 
 module.exports = updateData = async (tags) => { 
-  const browser = await puppeteer.launch(/* { headless: false } */)
+  const browser = await puppeteer.launch({ headless: false })
 
   console.log('Fetching data...')
 
@@ -56,6 +56,7 @@ module.exports = updateData = async (tags) => {
       await setCookies(page)
       await page.goto(`https://www.instagram.com/explore/tags/${tag.slice(1)}`)
       await page.waitForSelector('span.g47SY')
+
       const count = await page.$eval('span.g47SY', (element) => element.innerHTML )
       page.close()
 
@@ -65,5 +66,5 @@ module.exports = updateData = async (tags) => {
     } catch (err) { console.log(err) }
   })
     
-  console.log(await Promise.all(data))
+  return await Promise.all(data)
 }
