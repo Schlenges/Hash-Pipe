@@ -17,19 +17,13 @@ const _getData = (file) => {
  * specify tag count (max 30)
  * randomize
  * add duplicate removal
- * login if no cookie data
+ * Format file containing all hashtags to a neat list
+    const cleanFile = (file, data) => fs.writeFile(file, data, (err) => { if(err) console.log(err) })
 */
-
-/* Format file containing all hashtags to a neat list */
-const cleanFile = (file, data) => fs.writeFile(file, data, (err) => { if(err) console.log(err) })
 
 const find = (hashtags, words) => hashtags.filter(tag => _included(words, tag))
 const exclude = (hashtags, words) => hashtags.filter(tag => !_included(words, tag))
 const saveToText = (filename, tags) => fs.writeFile(`./${filename}.txt`, tags.join('\n'), (err) => { if(err) console.log(err) })
-const saveToJSON = async (tags) => { 
-  /* let json = tags.map(tag => ({[tag]: {media_count: 0}}))
-  console.log(Object.assign({}, ...json)) */
-}
 
 const run = async () => {
   let data = _getData('./hashtags.txt')
@@ -37,7 +31,12 @@ const run = async () => {
 
   let tags = find(hashtags, ['book'])
 
-  await updateData(tags)
+  let updatedData = await updateData(['designbooks', 'designer'])
+  updatedData = Object.assign(...updatedData)
+  updatedData = JSON.stringify(updatedData)
+
+  fs.writeFileSync('./data.json', updatedData, (err) => { if(err) console.log(err) })
+
   process.exit()
 }
 

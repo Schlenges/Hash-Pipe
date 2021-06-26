@@ -1,70 +1,34 @@
-const fs = require('fs')
-const puppeteer = require('puppeteer')
+const fetch = require('node-fetch')
+const { cookie, userAgent } = require('./config.js')
 
-const saveCookies = async (page) => { 
-  const cookiesFilePath = 'cookies.json'
-  const cookiesObject = await page.cookies()
+module.exports = updateData = async (tags) => {
+  let myHeaders = new fetch.Headers()
+  myHeaders.append("Host", " www.instagram.com")
+  myHeaders.append("User-Agent", userAgent)
+  myHeaders.append("Accept", " text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+  myHeaders.append("Accept-Language", " en-GB,en;q=0.5")
+  myHeaders.append("Alt-Used", " www.instagram.com")
+  myHeaders.append("Connection", " keep-alive")
+  myHeaders.append("Cookie", cookie)
+  myHeaders.append("Upgrade-Insecure-Requests", " 1")
 
-  fs.writeFile(cookiesFilePath, JSON.stringify(cookiesObject), (err) => err 
-    ? console.log('The file could not be written.', err)
-    : console.log('Session has been successfully saved'))
-}
-
-const loadCookies = async () => {
-  const previousSession = fs.existsSync('./cookies.json')
-  
-  if (previousSession) {
-    const cookiesString = fs.readFileSync('./cookies.json')
-    const parsedCookies = JSON.parse(cookiesString)
-
-    if (parsedCookies.length == 0) {
-      console.log('No cookies have been found')
-    }
-
-    return parsedCookies
+  let options = {
+    method: 'GET',
+    headers: myHeaders
   }
-}
 
-const setCookies = async (page) => {
-  const cookies = await loadCookies()
-  for(let cookie of cookies) {
-    await page.setCookie(cookie)
+  let data = []
+
+  for(let tag of tags) {
+    let url = `https://www.instagram.com/explore/tags/${tag}/?__a=1`
+
+    data.push(fetch(url, options)
+      .then(response => response.json())
+      .then(result => ({
+        [tag]:{ media_count: result.data.media_count }
+      }))
+      .catch(error => console.log('error', error)))
   }
-}
 
-const login = async (page, username, password) => { 
-  await page.waitForSelector('button.aOOlW.bIiDR')
-  await page.click('button.aOOlW.bIiDR')
-  await _delay(2000)
-  await page.waitForSelector('input[name="username"]')
-  await page.type('input[name="username"]', username)
-  await page.type('input[name="password"]', password)
-  await page.click('button[type="submit"]')
-  await _delay(3000)
-}
-
-const _delay = (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms))
-
-module.exports = updateData = async (tags) => { 
-  const browser = await puppeteer.launch({ headless: false })
-
-  console.log('Fetching data...')
-
-  let data = tags.map(async (tag) => { 
-    try{
-      const page = await browser.newPage()
-      await setCookies(page)
-      await page.goto(`https://www.instagram.com/explore/tags/${tag.slice(1)}`)
-      await page.waitForSelector('span.g47SY')
-
-      const count = await page.$eval('span.g47SY', (element) => element.innerHTML )
-      page.close()
-
-      return {
-        [tag]: {media_count: count}
-      }
-    } catch (err) { console.log(err) }
-  })
-    
   return await Promise.all(data)
 }
