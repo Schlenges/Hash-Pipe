@@ -3,9 +3,10 @@ module.exports = class Directory {
     this.items = items
   }
 
-  generateId = (items) => Number(Object.keys(items).sort().pop()) + 1
-
   _equal = (item, [key, val]) => typeof item === 'object' ? key == Object.keys(item)[0] : val == item
+
+
+  generateId = (items) => Number(Object.keys(items).sort().pop()) + 1
 
   getId = (item) => {
     let id = null
