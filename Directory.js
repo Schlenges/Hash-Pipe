@@ -4,9 +4,13 @@ module.exports = class Directory {
   }
 
   _equal = (item, [key, val]) => typeof item === 'object' ? key == Object.keys(item)[0] : val == item
+  _generateId = (items) => Number(Object.keys(items).sort().pop()) + 1
 
+  getById = (id) => this.items[id]
 
-  generateId = (items) => Number(Object.keys(items).sort().pop()) + 1
+  getAll = () => this.items
+
+  getAllArray = () => Object.entries(this.items)
 
   getId = (item) => {
     let id = null
@@ -31,7 +35,7 @@ module.exports = class Directory {
       const id = Object.keys(item)[0]
       newItem = {id: id, val: item[id]}
     } else{
-      const id = this.generateId(this.items)
+      const id = this._generateId(this.items)
       newItem = {id: id, val: item}
     }
 
@@ -43,5 +47,5 @@ module.exports = class Directory {
     delete this.items[id]
   }
 
-  getAll = () => this.items
+  reset = () => this.items = {}
 }
