@@ -1,12 +1,12 @@
 const fs = require('fs')
 const handleHashtags = require('./handleHashtags.js')
-const { tagData, categoryData } = require('./data.js')
+const { tagData, categoryData } = require('../data.js')
 const Directory = require('./Directory.js')
 const updateData = require('./updateData.js')
 
 const writeData = (newData) => {
   let data = `module.exports = { tagData: ${JSON.stringify(newData)}, categoryData:${JSON.stringify(categoryData)} }`
-  fs.writeFile('./data.js', data, (err) => { if(err) console.log(err) })
+  fs.writeFile(`${__dirname}/../data.js`, data, (err) => { if(err) console.log(err) })
 }
 
 const _addCategoriesField = (obj) => obj[Object.keys(obj)[0]].categories = []

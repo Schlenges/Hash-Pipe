@@ -1,5 +1,5 @@
 const fetch = require('node-fetch')
-const { cookie, userAgent } = require('./config.js')
+const { cookie, userAgent } = require('../config.js')
 
 module.exports = updateData = async (tags) => {
   let myHeaders = new fetch.Headers()
