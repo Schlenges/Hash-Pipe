@@ -1,12 +1,6 @@
 node_modules
-cookies.json
-output
-hashtags.txt
+misc
 config.js
-updatedata_old.js
-index_old.js
-session.js
-testTags.js
-testTags.txt
-testdata.js
+cookies.json
+hashtags.txt
 data.js
