@@ -1,39 +1,57 @@
 const fs = require('fs')
 
 module.exports = dirHelper = (tagDir, catDir) => ({
-  writeData: () => {
+  writeData: function(){
     let data = `module.exports = { tagData: ${JSON.stringify(tagDir.getAll())}, categoryData:${JSON.stringify(catDir.getAll())} }`
     fs.writeFile(`${__dirname}/../../data.js`, data, (err) => { if(err) console.log(err) })
   },
 
-  addCategory: (category) => {
+  addCategory: function(category){
     catDir.add(category)
-    this.writeData
+    this.writeData()
   },
 
-  removeCategory: (category) => {
+  removeCategory: function(category){
     let catId = catDir.getId(category)
     getTagsByCategory(category).forEach(([tag]) => removeTagFromCategory(tag, catId))
     catDir.removeById(catId)
-    this.writeData
+    this.writeData()
   },
 
-  addTagToCategory: (tag, category) => {
+  addTagToCategory: function(tag, category){
     tagDir.getById(tag).categories.push(catDir.getId(category))
-    this.writeData
+    this.writeData()
   },
   
-  removeTagFromCategory: (tag, categoryId) => {
+  removeTagFromCategory: function(tag, categoryId){
     let categories = tagDir.getById(tag).categories
     tagDir.getById(tag).categories = categories.filter(cat => cat != categoryId)
-    this.writeData
+    this.writeData()
   },
   
-  removeTag: (tag) => {
+  removeTag: function(tag){
     tagDir.removeById(tag)
     let hashtags = Object.keys(tagDir.getAll()).map(key => '#' + key).join('\n')
     console.log(hashtags)
     fs.writeFile(`${__dirname}/../../hashtags.txt`, hashtags, (err) => { if(err) console.log(err) })
-    this.writeData
+    this.writeData()
+  },
+
+  _save: function(path, tags){
+    let hashtags = tags.map(([tagname]) => '#' + tagname).join('\n')
+    fs.writeFile(path, hashtags, (err) => { if(err) console.log(err) })
+  },
+  
+  saveTagsToFile: function(filename, tags, overwrite = false){
+    if(!fs.existsSync(`${__dirname}/../../savedTags`)){ fs.mkdirSync(`${__dirname}/../../savedTags`)}
+    let path = `${__dirname}/../../savedTags/${filename}.txt`
+  
+    if(fs.existsSync(path)){
+      console.log('File already exists')
+      if(!overwrite){ return console.log('Canceled')}
+    }
+  
+    this._save(path, tags)
+    console.log('Saved')
   }
 })
