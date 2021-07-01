@@ -1,0 +1,86 @@
+:root{
+  --light-grey: #C2C9D1;
+  --light-blue: rgba(45, 156, 219, 0.25);
+  --text-default: #3b4256;
+  --text-light: rgba(0, 0, 0, 0.7);
+}
+
+body{
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-default);
+}
+
+input,
+textarea{
+  font-family: 'Open Sans', sans-serif;
+}
+
+label,
+.label{
+  margin-bottom: 10px;
+  color: var(--text-light);
+}
+
+.chip-set{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.chip{
+  background: var(--light-grey);
+  border-radius: 50px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  margin-right: 8px;
+  width: max-content;
+}
+
+.chip:hover{
+  cursor: pointer;
+}
+
+.active{
+  background: var(--light-blue);
+}
+
+#app{
+  display: flex;
+  padding: 20px;
+}
+
+.column{
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+#search-box{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+#search-box label{
+  color: var(--text-light);
+}
+
+#search-box input{
+  border: 1px solid var(--light-grey);
+  border-radius: 8px;
+  font-size: 14px;
+  width: 200px;
+  height: 30px;
+  padding: 5px 10px;
+}
+
+#tag-display{
+  padding: 30px 60px;
+}
+
+#tag-display textarea{
+  border-radius: 8px;
+  resize: none;
+  box-shadow: none;
+  border: 1px solid var(--light-grey);
+  padding: 10px;
+}

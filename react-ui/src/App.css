@@ -1,0 +1,57 @@
+#tag-display{
+  position: relative;
+}
+
+#tag-edit{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border: 1px solid var(--light-grey);
+  padding: 4px 5px;
+  border-radius: 8px;
+}
+
+#tag-edit:hover{
+  cursor: pointer;
+}
+
+#tagarea{
+  border-radius: 8px;
+  border: 1px solid var(--light-grey);
+  padding: 10px;
+  height: 400px;
+  width: 360px;
+}
+
+#tagarea.editable{
+  color: var(--text-default);
+  border: 1px solid var(--light-blue);
+  outline: 2px solid var(--light-blue);
+}
+
+#tag-display textarea{
+  color: var(--text-light);
+}
+
+#tag-display textarea.editable{
+  color: var(--text-default);
+  border: 1px solid var(--light-blue);
+  outline: 2px solid var(--light-blue);
+}
+
+#tag-display textarea:focus-visible{
+  outline: none;
+}
+
+.column{
+  position: relative;
+}
+
+#save-button{
+  position: absolute;
+  bottom: 30px;
+}
+
+.tags{
+  position: relative;
+}
