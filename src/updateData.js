@@ -24,9 +24,13 @@ module.exports = updateData = async (tags) => {
 
     data.push(fetch(url, options)
       .then(response => response.json())
-      .then(result => ({
-        [tag]:{ media_count: result.data.media_count }
-      }))
+      .then(result => {
+        if(Object.keys(result).length != 0){
+          return {
+            [tag]:{ media_count: result.data.media_count }
+          }
+        }
+      })
       .catch(error => console.log('error', error)))
   }
 

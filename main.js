@@ -6,6 +6,9 @@ const run = async (tagFile) => {
   const [tagDir, catDir, newTags] = await init(tagFile)
   const tags = tagsHelper(tagDir)
   const dir = dirHelper(tagDir, catDir)
+
+  return newTags
 }
 
-run('hashtags.txt')
+module.exports = run
+//run('hashtags.txt')
