@@ -1,5 +1,14 @@
 {
+  "scripts": {
+    "server": "node api/index.js",
+    "dev-server": "nodemon api/index.js"
+  },
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.9"
   }
 }
