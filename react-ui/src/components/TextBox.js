@@ -7,11 +7,13 @@ const Button = ({text, handleClick}) => (
   </div>
 )
 
-const TextBox = ({hideBtn=false, tags, isChip}) => {
+const TextBox = ({hideBtn=false, tags, showChips, onSelect, onDeselect}) => {
   const [inEdit, setInEdit] = useState(false)
+  const [isChip, setIsChip] = useState(showChips)
 
   const buttonClick = () => {
     setInEdit(!inEdit)
+    if(!showChips){ setIsChip(!isChip) }
   }
 
   return(
@@ -21,15 +23,16 @@ const TextBox = ({hideBtn=false, tags, isChip}) => {
         : <Button handleClick={buttonClick} text={inEdit ? 'done' : 'edit'} />
       }
       <div className="tags">
-        {tags.map(tag => isChip 
+        {tags.map(([tag, isSelected]) => isChip 
           ? <Chip 
               text={tag} 
               key={tag} 
-              onSelect={() => console.log('selcted')}
-              onDeselect={() => console.log('deselcted')}
+              isSelected={isSelected}
+              onSelect={onSelect}
+              onDeselect={onDeselect}
               icon={inEdit}
             /> 
-          : <p>{tag}</p>)}
+          : <li key={tag} >{tag}</li>)}
       </div>
     </div>
   )
