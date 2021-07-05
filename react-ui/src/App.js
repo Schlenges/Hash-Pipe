@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import TagDisplay from './components/TagDisplay.js'
+import SearchBox from './components/SearchBox.js'
 import './app.css'
 
 const tags = ["#design", "#designer", "#popdesign"] 
@@ -24,20 +25,26 @@ const App = () => {
 
   return(
     <div id="app">
-      <TagDisplay 
-        label="Search Result" 
-        tags={searchResult.map(tag => [tag, selectedTags.includes(tag)])} 
-        showChips={true} 
-        hideBtn={true}
-        onSelect={(tag) => selectTag(tag)}
-        onDeselect={(tag) => deselectTag(tag)}
-      />
-      <TagDisplay 
-        label="Selected Tags" 
-        tags={selectedTags.map(tag => [tag, false])} 
-        showChips={false}
-        onSelect={(tag) => deselectTag(tag)}
-        onDeselect={() => null} />
+      <div className="column">
+        <SearchBox />
+      </div>
+      <div className="column">
+        <TagDisplay 
+          label="Search Result" 
+          tags={searchResult.map(tag => [tag, selectedTags.includes(tag)])} 
+          showChips={true} 
+          hideBtn={true}
+          onSelect={(tag) => selectTag(tag)}
+          onDeselect={(tag) => deselectTag(tag)}
+        />
+        <TagDisplay 
+          label="Selected Tags" 
+          tags={selectedTags.map(tag => [tag, false])} 
+          showChips={false}
+          onSelect={(tag) => deselectTag(tag)}
+          onDeselect={() => null} 
+        />
+      </div>
     </div>
   )
 }

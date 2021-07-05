@@ -11,6 +11,18 @@ body{
   color: var(--text-default);
 }
 
+#app{
+  display: flex;
+  padding: 20px;
+}
+
+.column{
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  padding: 20px;
+}
+
 label,
 .label{
   margin-bottom: 10px;
@@ -19,6 +31,27 @@ label,
 
 li{
   list-style: none;
+}
+
+/* Searchbox */
+
+#searchbox{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+#searchbox input{
+  border: 1px solid var(--light-grey);
+  border-radius: 8px;
+  font-size: 14px;
+  width: 200px;
+  height: 30px;
+  padding: 5px 10px;
+}
+
+#searchbox input:focus{
+  outline: 2px solid var(--light-blue);
 }
 
 
@@ -45,7 +78,7 @@ li{
 /* Tag Display */
 
 .tag-display{
-  padding: 30px 60px;
+  margin-bottom: 30px;
 }
 
 
