@@ -1,43 +1,43 @@
-import React, { useState, useEffect }from 'react'
-import './App.css'
-import SearchBox from './SearchBox.js'
-import Categories from './Categories.js'
-import TagDisplay from './TagDisplay.js'
+import React, { useState, useEffect } from 'react'
+import TagDisplay from './components/TagDisplay.js'
+import './app.css'
 
-//const testdata = ["#design", "#designer", "#branddesign"]
+const tags = ["#design", "#designer", "#popdesign"] 
 
 const App = () => {
-  const [tags, setTags] = useState([])
-  // Find by categories
-  //const [activeCategories, setActiveCategories] = useState([])
-  const [areNew, setAreNew] = useState(false)
+  const [searchResult, setSearchResult] = useState([])
+  const [selectedTags, setSelectedTags] = useState([])
 
-  // useEffect once tags = init value
-  useEffect(() => { 
-    fetch(`/api`)
-      .then(response => response.json())
-      .then(data => {
-        setAreNew(data.length > 0)
-        setTags(data.map(entry => [entry, {}]))
-      })
-  }, [])
+  const selectTag = (tag) => {
+    if(!selectedTags.includes(tag)){ 
+      setSelectedTags([...selectedTags, tag])
+    }
+  }
+
+  const deselectTag = (tag) => {
+    setSelectedTags(selectedTags.filter(item => item !== tag))
+  }
 
   useEffect(() => {
-    console.log(tags)
-  }, [tags])
+    setSearchResult(tags)
+  }, [])
 
-  //search
-    // if(activeCategories.length > 0) findInCategories
-    // else find
-
-  return (
-    <div  id="app">
-      <div className="column">
-        <SearchBox />
-        <Categories tags={tags} setTags={setTags}/>
-        <button id="save-button">Save tags</button>
-      </div>
-      <TagDisplay tags={tags} setTags={setTags} areNew={areNew} />
+  return(
+    <div id="app">
+      <TagDisplay 
+        label="Search Result" 
+        tags={searchResult.map(tag => [tag, selectedTags.includes(tag)])} 
+        showChips={true} 
+        hideBtn={true}
+        onSelect={(tag) => selectTag(tag)}
+        onDeselect={(tag) => deselectTag(tag)}
+      />
+      <TagDisplay 
+        label="Selected Tags" 
+        tags={selectedTags.map(tag => [tag, false])} 
+        showChips={false}
+        onSelect={(tag) => deselectTag(tag)}
+        onDeselect={() => null} />
     </div>
   )
 }

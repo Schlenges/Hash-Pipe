@@ -1,8 +1,79 @@
-#tag-display{
-  position: relative;
+:root{
+  --light-grey: rgba(194, 201, 209, 0.25);
+  --light-blue: rgba(45, 156, 219, 0.25);
+  --text-default: rgb(59, 66, 86);
+  --text-medium: rgb(59, 66, 86, 0.7);
+  --text-light: rgba(0, 0, 0, 0.5);
 }
 
-#tag-edit{
+body{
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-default);
+}
+
+label,
+.label{
+  margin-bottom: 10px;
+  color: var(--text-light);
+}
+
+li{
+  list-style: none;
+}
+
+
+/* Chip */
+
+.chip{
+  background: var(--light-grey);
+  border-radius: 50px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  margin-right: 8px;
+  width: max-content;
+}
+
+.chip:hover{
+  cursor: pointer;
+}
+
+.chip.selected{
+  background: var(--light-blue);
+}
+
+
+/* Tag Display */
+
+.tag-display{
+  padding: 30px 60px;
+}
+
+
+/* Text Box */
+
+.text-box{
+  color: var(--text-medium);
+  border-radius: 8px;
+  resize: none;
+  box-shadow: none;
+  border: 1px solid var(--light-grey);
+  padding: 10px;
+  position: relative;
+
+  height: 400px;
+  width: 360px;
+}
+
+.text-box.active{
+  color: var(--text-default);
+  border: 1px solid var(--light-blue);
+  outline: 2px solid var(--light-blue);
+}
+
+/* Edit Button */
+
+#edit-btn{
+  color: var(--text-default);
   position: absolute;
   right: 10px;
   top: 10px;
@@ -11,47 +82,6 @@
   border-radius: 8px;
 }
 
-#tag-edit:hover{
+#edit-btn:hover{
   cursor: pointer;
-}
-
-#tagarea{
-  border-radius: 8px;
-  border: 1px solid var(--light-grey);
-  padding: 10px;
-  height: 400px;
-  width: 360px;
-}
-
-#tagarea.editable{
-  color: var(--text-default);
-  border: 1px solid var(--light-blue);
-  outline: 2px solid var(--light-blue);
-}
-
-#tag-display textarea{
-  color: var(--text-light);
-}
-
-#tag-display textarea.editable{
-  color: var(--text-default);
-  border: 1px solid var(--light-blue);
-  outline: 2px solid var(--light-blue);
-}
-
-#tag-display textarea:focus-visible{
-  outline: none;
-}
-
-.column{
-  position: relative;
-}
-
-#save-button{
-  position: absolute;
-  bottom: 30px;
-}
-
-.tags{
-  position: relative;
 }
