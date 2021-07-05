@@ -4,8 +4,8 @@ import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'
 
 const Chip = ({text, isSelected, onSelect, onDeselect, icon=false}) => {
 
-  const handleClick = (event) => {
-    isSelected ? onDeselect() : onSelect(text)
+  const handleClick = () => {
+    isSelected ? onDeselect(text) : onSelect(text)
   }
 
   return(
