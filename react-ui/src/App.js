@@ -1,14 +1,16 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react'
 import TagDisplay from './components/TagDisplay.js'
 import Searchbox from './components/Searchbox.js'
+import Categories from './components/Categories.js'
 import './App.css'
-
-const tags = ["#design", "#designer", "#popdesign"] 
 
 const App = () => {
   const [searchResult, setSearchResult] = useState([])
+  const [categoryResult, setCategoryResult] = useState([])
+  //const [resultDisplay, setResultDisplay] = useState([])
   const [selectedTags, setSelectedTags] = useState([])
-
+  
   const selectTag = (tag) => {
     if(!selectedTags.includes(tag)){ 
       setSelectedTags([...selectedTags, tag])
@@ -19,19 +21,25 @@ const App = () => {
     setSelectedTags(selectedTags.filter(item => item !== tag))
   }
 
-  useEffect(() => {
-    setSearchResult(tags)
-  }, [])
+  /* useEffect(() => {
+    if(categoryResult.length > 0){
+      let catTags = categoryResult.map(([tag]) => "#" + tag)
+      let result = searchResult.filter((tag) => catTags.includes(tag))
+      setSearchResult(result)
+    }
+  }, [categoryResult]) */
 
   return(
     <div id="app">
       <div className="column">
-        <Searchbox />
+        <Searchbox setSearchResult={setSearchResult} categoryResult={categoryResult.map(([tag]) => tag)} />
+        <Categories setCategoryResult={setCategoryResult} />
       </div>
       <div className="column">
         <TagDisplay 
           label="Search Result" 
-          tags={searchResult.map(tag => [tag, selectedTags.includes(tag)])} 
+          tags={[searchResult, categoryResult, selectedTags]} 
+          dynamicTags={true}
           showChips={true} 
           hideBtn={true}
           onSelect={(tag) => selectTag(tag)}

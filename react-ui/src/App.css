@@ -55,6 +55,16 @@ li{
 }
 
 
+/* Categories */
+#categories{
+  width: 300px;
+}
+
+.chip-set{
+  display: flex;
+  flex-wrap: wrap;
+}
+
 /* Chip */
 
 .chip{
