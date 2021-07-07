@@ -8,7 +8,6 @@ import './App.css'
 const App = () => {
   const [searchResult, setSearchResult] = useState([])
   const [categoryResult, setCategoryResult] = useState([])
-  //const [resultDisplay, setResultDisplay] = useState([])
   const [selectedTags, setSelectedTags] = useState([])
   
   const selectTag = (tag) => {

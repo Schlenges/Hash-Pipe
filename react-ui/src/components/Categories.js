@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Chip from './Chip.js'
 
 const Categories = ({setCategoryResult, setSearchResult}) => {
-  const [categories] = useState(["Design", "Logo", "Business", "Denver", "Brandidentity"])
+  const [categories, setCategories] = useState([])
   const [activeCats, setActiveCats] = useState([])
 
   const onSelect = (category) => {
@@ -14,14 +14,22 @@ const Categories = ({setCategoryResult, setSearchResult}) => {
   }
 
   useEffect(() => {
+    fetch('/api/categories')
+      .then(response => response.json())
+      .then(data => {
+        setCategories(data)
+      })
+  }, [])
+
+  useEffect(() => {
     if(activeCats.length > 0){
-      fetch(`/api/${activeCats.map(cat => cat.toLowerCase()).join('&')}`)
+      fetch(`/api/search/${activeCats.map(cat => cat.toLowerCase()).join('&')}`)
       .then(response => response.json())
       .then(data => {
         setCategoryResult([].concat(...data))
       })
     } else{
-      fetch(`/api/search?q=${document.getElementById("search-input").value}`)
+      fetch(`/api/search/tags?q=${document.getElementById("search-input").value}`)
       .then(response => response.json())
       .then(data => {
         setCategoryResult([])
@@ -34,7 +42,7 @@ const Categories = ({setCategoryResult, setSearchResult}) => {
     <div id="categories">
       <div className="label">Categories</div>
       <div className="chip-set">
-        {categories.map(category => 
+        {categories.map(([id, category]) => 
           <Chip 
             key={category} 
             text={category}

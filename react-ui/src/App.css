@@ -56,8 +56,10 @@ li{
 
 
 /* Categories */
+
 #categories{
   width: 300px;
+  text-transform: capitalize;
 }
 
 .chip-set{

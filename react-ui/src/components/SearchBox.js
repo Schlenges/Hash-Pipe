@@ -6,7 +6,7 @@ const Searchbox = ({setSearchResult, categoryResult}) => {
 
   useEffect(() => {
     if(term.length > 0){
-      fetch(`/api/search?q=${term}`)
+      fetch(`/api/search/tags?q=${term}`)
       .then(res => res.json())
       .then(data => {
         let result = categoryResult.length > 0 ? data.filter(([tag]) => categoryResult.includes(tag)) : data

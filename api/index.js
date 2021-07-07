@@ -17,11 +17,17 @@ app.get('/api/', async (req, res) => {
   res.json(newTags)
 })
 
-app.get('/api/search', async (req, res) => {
-  res.json(tags.find(req.query.q))
+app.get('/api/search/tags', async (req, res) => {
+  let term = req.query.q
+  if(req.query.cats){ 
+    let cats = req.query.cats.split(',')
+    res.json(tags.findInCategories(term, cats))
+  } else {
+    res.json(tags.find(term))
+  }
 })
 
-app.get('/api/:categories', async (req, res) => {
+app.get('/api/search/:categories', async (req, res) => {
   let categories = req.params.categories.split('&')
   let data = categories.map((category) => {
     let id = catDir.getId(category)
@@ -30,6 +36,11 @@ app.get('/api/:categories', async (req, res) => {
   
   let obj = Object.fromEntries([].concat(...data))
   res.json([Object.entries(obj)])
+})
+
+app.get('/api/categories', (req, res) => {
+  let categories = catDir.getAllArray()
+  res.json(categories)
 })
 
 app.listen(5000, () => 
