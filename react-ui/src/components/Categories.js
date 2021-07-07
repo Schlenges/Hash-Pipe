@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Chip from './Chip.js'
 
-const Categories = ({setCategoryResult}) => {
+const Categories = ({setCategoryResult, setSearchResult}) => {
   const [categories] = useState(["Design", "Logo", "Business", "Denver", "Brandidentity"])
   const [activeCats, setActiveCats] = useState([])
 
@@ -14,12 +14,21 @@ const Categories = ({setCategoryResult}) => {
   }
 
   useEffect(() => {
-    fetch(`/api/${activeCats.map(cat => cat.toLowerCase()).join('&')}`)
-    .then(response => response.json())
-    .then(data => {
-      setCategoryResult([].concat(...data))
-    })
-  }, [activeCats, setCategoryResult])
+    if(activeCats.length > 0){
+      fetch(`/api/${activeCats.map(cat => cat.toLowerCase()).join('&')}`)
+      .then(response => response.json())
+      .then(data => {
+        setCategoryResult([].concat(...data))
+      })
+    } else{
+      fetch(`/api/search?q=${document.getElementById("search-input").value}`)
+      .then(response => response.json())
+      .then(data => {
+        setCategoryResult([])
+        setSearchResult(data.map(([tag]) => "#" + tag))
+      })
+    }
+  }, [activeCats, setCategoryResult, setSearchResult])
 
   return(
     <div id="categories">

@@ -21,19 +21,11 @@ const App = () => {
     setSelectedTags(selectedTags.filter(item => item !== tag))
   }
 
-  /* useEffect(() => {
-    if(categoryResult.length > 0){
-      let catTags = categoryResult.map(([tag]) => "#" + tag)
-      let result = searchResult.filter((tag) => catTags.includes(tag))
-      setSearchResult(result)
-    }
-  }, [categoryResult]) */
-
   return(
     <div id="app">
       <div className="column">
         <Searchbox setSearchResult={setSearchResult} categoryResult={categoryResult.map(([tag]) => tag)} />
-        <Categories setCategoryResult={setCategoryResult} />
+        <Categories setCategoryResult={setCategoryResult} setSearchResult={setSearchResult} />
       </div>
       <div className="column">
         <TagDisplay 
