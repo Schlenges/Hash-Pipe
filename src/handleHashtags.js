@@ -7,7 +7,6 @@ const _removeDuplicates = (tags) => [...new Set(tags)]
  * Remove duplicate hashtags and format file 
 */
 const cleanup = (tags, file) => {
-  tags = _removeDuplicates(tags)
   fs.writeFile(file, tags.join('\n'), (err) => { if(err) console.log(err) })
   return tags.map(tag => tag.slice(1))
 }
@@ -18,7 +17,8 @@ const cleanup = (tags, file) => {
 const getTags = (file) => { 
   try {
     let data = fs.readFileSync(file, 'utf8')
-    return _extract(data)
+    let tags = _extract(data).map(tag => tag.slice(1))
+    return _removeDuplicates(tags)
   } catch (err) {
     console.log(err.message)
   }
@@ -32,4 +32,4 @@ const handleHashtags = (file) => {
   return cleanup(hashtags, file)
 }
 
-module.exports = handleHashtags
+module.exports = { getTags, cleanup }

@@ -1,5 +1,5 @@
 const fs = require('fs')
-const handleHashtags = require('./handleHashtags.js')
+const { getTags } = require('./handleHashtags.js')
 const { tagData, categoryData } = require('../data.js')
 const Directory = require('./Directory.js')
 const updateData = require('./updateData.js')
@@ -9,16 +9,13 @@ const writeData = (newData) => {
   fs.writeFile(`${__dirname}/../data.js`, data, (err) => { if(err) console.log(err) })
 }
 
-const _addCategoriesField = (obj) => obj[Object.keys(obj)[0]].categories = []
-
 const addTagData = (data, dir) => data.map(obj => {
-  _addCategoriesField(obj)
   dir.add(obj)
   return obj
 }) 
 
 module.exports = init = async (hashtagFile) => {
-  let tags = handleHashtags(hashtagFile)
+  let tags = getTags(hashtagFile)
   let tagDir = new Directory(tagData)
   let categoryDir = new Directory(categoryData)
 
@@ -29,6 +26,7 @@ module.exports = init = async (hashtagFile) => {
     // if no session, login and get/write session cookie
     let newData = await updateData(newTags)
     newData = newData.filter(item => item !== undefined)
+    newTags = newData.map((item) => Object.keys(item)[0])
     addTagData(newData, tagDir)
   }
 
@@ -36,6 +34,8 @@ module.exports = init = async (hashtagFile) => {
     removedTags.forEach(tag => tagDir.removeById(tag))
   }
 
+  let updatedTags = tagDir.getAllArray().map(([tag]) => '#' + tag)
+  fs.writeFile(hashtagFile, updatedTags.join('\n'), (err) => { if(err) console.log(err) })
   writeData(tagDir.getAll())
 
   return [tagDir, categoryDir, newTags]

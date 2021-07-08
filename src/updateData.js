@@ -27,7 +27,10 @@ module.exports = updateData = async (tags) => {
       .then(result => {
         if(Object.keys(result).length != 0){
           return {
-            [tag]:{ media_count: result.data.media_count }
+            [tag]:{ 
+              media_count: result.data.media_count,
+              categories: ["0"] 
+            }
           }
         }
       })
