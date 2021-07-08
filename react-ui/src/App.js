@@ -9,6 +9,15 @@ const App = () => {
   const [searchResult, setSearchResult] = useState([])
   const [categoryResult, setCategoryResult] = useState([])
   const [selectedTags, setSelectedTags] = useState([])
+
+  useEffect(() => {
+    fetch('/api/')
+      .then((response) => response.json())
+      .then(data => {
+        setSelectedTags(data)
+        setSearchResult(data)
+      })
+  }, [])
   
   const selectTag = (tag) => {
     if(!selectedTags.includes(tag)){ 

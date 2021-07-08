@@ -43,6 +43,11 @@ app.get('/api/categories', (req, res) => {
   res.json(categories)
 })
 
+app.post('/api/categories/:category', async (req, res) => {
+  await dir.addCategory(req.params.category)
+  res.json(catDir.getAllArray())
+})
+
 app.listen(5000, () => 
   console.log(`Server running on port 5000`)
 )

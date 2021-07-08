@@ -15,6 +15,7 @@ const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dyna
         setResultDisplay(result.map((tag) => [tag, selectedTags.includes(tag)]))
       } else{
         if(categoryResult.length > 0){
+          if(categoryResult[0] === 'empty'){ return setResultDisplay([])}
           let catTags = categoryResult.map(([tag]) => "#" + tag)
           let result = searchResult.filter((tag) => catTags.includes(tag))
           setResultDisplay(result.map((tag) => [tag, selectedTags.includes(tag)]))
