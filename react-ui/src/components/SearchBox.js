@@ -1,19 +1,21 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react'
 
-const Searchbox = ({setSearchResult, categoryResult}) => {
+const Searchbox = ({setSearchResult, categoryResult, inEditMode}) => {
   const [term, setTerm] = useState('')
 
   useEffect(() => {
-    if(term.length > 0){
       fetch(`/api/search/tags?q=${term}`)
       .then(res => res.json())
       .then(data => {
-        let result = categoryResult.length > 0 ? data.filter(([tag]) => categoryResult.includes(tag)) : data
-        setSearchResult(result.map(([tag]) => "#" + tag))
+        if(!inEditMode){ 
+          let result = categoryResult.length > 0 ? data.filter(([tag]) => categoryResult.includes(tag)) : data
+          setSearchResult(result.map(([tag]) => "#" + tag))
+        } else{
+          setSearchResult(data.map(([tag]) => "#" + tag))
+        }
       })
-    }
-  }, [term])
+      
+  }, [term]) // eslint-disable-line
 
   const handleSearch = (event) => { 
     setTerm(event.target.value)

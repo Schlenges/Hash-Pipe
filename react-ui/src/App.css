@@ -80,14 +80,23 @@ li{
   flex-wrap: wrap;
 }
 
-.plus-icon{
-  margin-left: 6px; 
+.icon{
   color: var(--text-light); 
   font-size: 12px;
+}
+
+#add-cat-icon{
+  margin-left: 6px; 
   cursor: pointer;
 }
 
-#add-cat-icon.active{
+#edit-cat-icon{
+  margin-left: auto; 
+  cursor: pointer;
+}
+
+#add-cat-icon.active,
+#edit-cat-icon.active{
   color: var(--light-blue);
 }
 

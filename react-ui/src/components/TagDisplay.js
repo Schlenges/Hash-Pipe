@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import TextBox from './TextBox.js'
 
-const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dynamicTags}) => {
+const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dynamicTags, inEditMode}) => {
   const [resultDisplay, setResultDisplay] = useState([])
 
   useEffect(() => {
     if(!dynamicTags){ 
-      setResultDisplay(tags)
+      tags[0] === 'empty' ? setResultDisplay([]) : setResultDisplay(tags.map((tag) => [tag, false]))
     } else{
       let [searchResult, categoryResult, selectedTags] = tags
 
@@ -14,18 +14,16 @@ const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dyna
         let result = categoryResult.map(([tag]) => "#" + tag)
         setResultDisplay(result.map((tag) => [tag, selectedTags.includes(tag)]))
       } else{
-        if(categoryResult.length > 0){
-          if(categoryResult[0] === 'empty'){ return setResultDisplay([])}
-          let catTags = categoryResult.map(([tag]) => "#" + tag)
+        let catTags = categoryResult.map(([tag]) => "#" + tag)
+        if(categoryResult.length > 0 && !inEditMode){
           let result = searchResult.filter((tag) => catTags.includes(tag))
           setResultDisplay(result.map((tag) => [tag, selectedTags.includes(tag)]))
         } else{
-          setResultDisplay(searchResult.map((tag) => [tag, selectedTags.includes(tag)]))
+          setResultDisplay(searchResult.map((tag) => [tag, inEditMode ? catTags.includes(tag) : selectedTags.includes(tag)]))
         }
       }
     }
-// eslint-disable-next-line
-  }, [tags])
+  }, [tags]) // eslint-disable-line
 
   return(
     <div className="tag-display">

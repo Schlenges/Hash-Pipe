@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
 import Chip from './Chip.js'
 
-const Categories = ({setCategoryResult, setSearchResult}) => {
+const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMode}) => {
   const [categories, setCategories] = useState([])
   const [activeCats, setActiveCats] = useState([])
   const [showInput, setShowInput] = useState(false)
 
   const onSelect = (category) => {
-    setActiveCats([...activeCats, category])
+    inEditMode ? setActiveCats([category]) : setActiveCats([...activeCats, category])
   }
 
   const onDeselect = (category) => {
@@ -33,6 +33,13 @@ const Categories = ({setCategoryResult, setSearchResult}) => {
         })
         document.getElementById('add-cat-icon').classList.remove('active')
     }
+  }
+
+  const editCategory = () => {
+    setActiveCats([])
+    setInEditMode(!inEditMode)
+    let classes = document.getElementById('edit-cat-icon').classList
+    classes.contains('active') ? classes.remove('active') : classes.add('active')
   }
 
   useEffect(() => {
@@ -66,7 +73,8 @@ const Categories = ({setCategoryResult, setSearchResult}) => {
     <div id="categories">
       <div style={{ display: "flex", alignItems: "baseline" }}>
         <div className="label">Categories</div>
-        <FontAwesomeIcon id="add-cat-icon" className="plus-icon" icon={faPlus} onClick={openInput}/>
+        <FontAwesomeIcon id="add-cat-icon" className="icon" icon={faPlus} onClick={openInput}/>
+        <FontAwesomeIcon id="edit-cat-icon" className="icon" icon={faEdit} onClick={editCategory}/>
       </div>
       <div className="chip-set">
         {categories.map(([id, category]) => 

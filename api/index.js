@@ -48,6 +48,17 @@ app.post('/api/categories/:category', async (req, res) => {
   res.json(catDir.getAllArray())
 })
 
+app.post('/api/tags/:tag/:category', async (req, res) => {
+  await dir.addTagToCategory(req.params.tag, req.params.category)
+  res.json(tags.getAllByCategory(catDir.getId(req.params.category)))
+})
+
+app.delete('/api/tags/:tag/:category', async (req, res) => {
+  let catId = catDir.getId(req.params.category)
+  await dir.removeTagFromCategory(req.params.tag, catId)
+  res.json(tags.getAllByCategory(catId))
+})
+
 app.listen(5000, () => 
   console.log(`Server running on port 5000`)
 )

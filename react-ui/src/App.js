@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react'
 import TagDisplay from './components/TagDisplay.js'
 import Searchbox from './components/Searchbox.js'
@@ -9,6 +8,7 @@ const App = () => {
   const [searchResult, setSearchResult] = useState([])
   const [categoryResult, setCategoryResult] = useState([])
   const [selectedTags, setSelectedTags] = useState([])
+  const [inEditMode, setInEditMode] = useState(false)
 
   useEffect(() => {
     fetch('/api/')
@@ -20,20 +20,43 @@ const App = () => {
   }, [])
   
   const selectTag = (tag) => {
-    if(!selectedTags.includes(tag)){ 
-      setSelectedTags([...selectedTags, tag])
+    if(!inEditMode){ 
+      if(!selectedTags.includes(tag)){ 
+        setSelectedTags([...selectedTags, tag])
+      }
+    } else{
+      if(!categoryResult.map(([tag]) => '#' + tag).includes(tag)){ 
+        let cat = document.querySelector('.chip.selected').textContent
+        fetch(`/api/tags/${tag.slice(1)}/${cat}`, {method: 'POST'})
+          .then(response => response.json())
+          .then(data => setCategoryResult(data))
+      }
     }
   }
 
   const deselectTag = (tag) => {
-    setSelectedTags(selectedTags.filter(item => item !== tag))
+    if(!inEditMode){
+      setSelectedTags(selectedTags.filter(item => item !== tag))
+    } else{
+      if(categoryResult.map(([tag]) => '#' + tag).includes(tag)){ 
+        let cat = document.querySelector('.chip.selected').textContent
+        fetch(`/api/tags/${tag.slice(1)}/${cat}`, {method: 'DELETE'})
+          .then(response => response.json())
+          .then(data => setCategoryResult(data))
+      }
+    }
   }
 
   return(
     <div id="app">
       <div className="column">
-        <Searchbox setSearchResult={setSearchResult} categoryResult={categoryResult.map(([tag]) => tag)} />
-        <Categories setCategoryResult={setCategoryResult} setSearchResult={setSearchResult} />
+        <Searchbox setSearchResult={setSearchResult} categoryResult={categoryResult.map(([tag]) => tag)} inEditMode={inEditMode} />
+        <Categories 
+          setCategoryResult={setCategoryResult} 
+          setSearchResult={setSearchResult}
+          inEditMode={inEditMode} 
+          setInEditMode={setInEditMode}
+        />
       </div>
       <div className="column">
         <TagDisplay 
@@ -44,13 +67,15 @@ const App = () => {
           hideBtn={true}
           onSelect={(tag) => selectTag(tag)}
           onDeselect={(tag) => deselectTag(tag)}
+          inEditMode={inEditMode}
         />
         <TagDisplay 
           label="Selected Tags" 
-          tags={selectedTags.map(tag => [tag, false])} 
+          tags={inEditMode ? categoryResult.map(([tag]) => '#' + tag) : selectedTags} 
           showChips={false}
-          onSelect={(tag) => setSelectedTags(selectedTags.filter(item => item !== tag))}
-          onDeselect={() => null} 
+          onSelect={(tag) => inEditMode ? selectTag(tag) : setSelectedTags(selectedTags.filter(item => item !== tag))}
+          onDeselect={(tag) => inEditMode ? deselectTag(tag) : null} 
+          inEditMode={inEditMode}
         />
       </div>
     </div>
