@@ -24,10 +24,15 @@ body{
   padding: 20px;
 }
 
+.column.left{
+  height: 442px;
+}
+
 label,
 .label{
   margin-bottom: 10px;
   color: var(--text-light);
+  text-transform: capitalize;
 }
 
 input{
@@ -59,6 +64,48 @@ li{
   list-style: none;
 }
 
+.icon.save-icon{
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+#save-tags-container{
+  margin-top: auto;
+  padding-top: 15px;
+}
+
+#save-tags{
+  cursor: pointer;
+}
+
+#save-file-input{
+  padding-top: 10px;
+  display: flex;
+}
+
+.icon-btn{
+  width: max-content;
+  height: max-content;
+  margin-left: 8px;
+  padding: 0px;
+  border-radius: 50px;
+  border: none;
+  background: none;
+  align-self: center;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.icon-btn svg{
+  font-size: 24px;
+}
+
+.warning{
+  color: #EB5757;
+  font-size: 12px;
+  padding-top: 5px;
+}
+
 /* Searchbox */
 
 #searchbox{
@@ -73,6 +120,7 @@ li{
 #categories{
   width: 300px;
   text-transform: capitalize;
+  margin-bottom: 50px;
 }
 
 .chip-set{

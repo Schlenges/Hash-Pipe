@@ -12,6 +12,8 @@ let catDir = new Directory(categoryData)
 const tags = tagsHelper(tagDir)
 const dir = dirHelper(tagDir, catDir)
 
+app.use(express.json())
+
 app.get('/api/', async (req, res) => {
   let newTags = await runApp('hashtags.txt')
   res.json(newTags)
@@ -51,6 +53,11 @@ app.post('/api/categories/:category', async (req, res) => {
 app.post('/api/tags/:tag/:category', async (req, res) => {
   await dir.addTagToCategory(req.params.tag, req.params.category)
   res.json(tags.getAllByCategory(catDir.getId(req.params.category)))
+})
+
+app.post('/api/tags/save', async (req, res) => {
+  let isSaved = dir.saveTagsToFile(req.body.filename, req.body.tags, req.body.overwrite)
+  res.json(isSaved)
 })
 
 app.delete('/api/tags/:tag/:category', async (req, res) => {

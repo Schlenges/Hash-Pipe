@@ -38,20 +38,29 @@ module.exports = dirHelper = (tagDir, catDir) => ({
   },
 
   _save: function(path, tags){
-    let hashtags = tags.map(([tagname]) => '#' + tagname).join('\n')
+    let hashtags = tags.map((tag) => '#' + tag).join('\n')
     fs.writeFile(path, hashtags, (err) => { if(err) console.log(err) })
   },
   
   saveTagsToFile: function(filename, tags, overwrite = false){
-    if(!fs.existsSync(`${__dirname}/../../savedTags`)){ fs.mkdirSync(`${__dirname}/../../savedTags`)}
+    if(!fs.existsSync(`${__dirname}/../../savedTags`)){
+       fs.mkdirSync(`${__dirname}/../../savedTags`)
+    }
+
     let path = `${__dirname}/../../savedTags/${filename}.txt`
   
     if(fs.existsSync(path)){
       console.log('File already exists')
-      if(!overwrite){ return console.log('Canceled')}
+
+      if(!overwrite){ 
+        console.log('Canceled')
+        return false
+      }
     }
   
     this._save(path, tags)
     console.log('Saved')
+
+    return true
   }
 })

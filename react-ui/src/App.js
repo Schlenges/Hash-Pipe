@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import TagDisplay from './components/TagDisplay.js'
 import Searchbox from './components/Searchbox.js'
 import Categories from './components/Categories.js'
+import Save from './components/Save.js'
 import './App.css'
 
 const App = () => {
@@ -18,6 +19,11 @@ const App = () => {
         setSearchResult(data)
       })
   }, [])
+
+  const _findActiveCat = () => {
+    let el = document.querySelector('.chip-set > .chip.selected')
+    return el !== null ? el.textContent : ''
+  }
   
   const selectTag = (tag) => {
     if(!inEditMode){ 
@@ -26,7 +32,7 @@ const App = () => {
       }
     } else{
       if(!categoryResult.map(([tag]) => '#' + tag).includes(tag)){ 
-        let cat = document.querySelector('.chip.selected').textContent
+        let cat = _findActiveCat()
         fetch(`/api/tags/${tag.slice(1)}/${cat}`, {method: 'POST'})
           .then(response => response.json())
           .then(data => setCategoryResult(data))
@@ -39,7 +45,7 @@ const App = () => {
       setSelectedTags(selectedTags.filter(item => item !== tag))
     } else{
       if(categoryResult.map(([tag]) => '#' + tag).includes(tag)){ 
-        let cat = document.querySelector('.chip.selected').textContent
+        let cat = _findActiveCat()
         fetch(`/api/tags/${tag.slice(1)}/${cat}`, {method: 'DELETE'})
           .then(response => response.json())
           .then(data => setCategoryResult(data))
@@ -49,7 +55,7 @@ const App = () => {
 
   return(
     <div id="app">
-      <div className="column">
+      <div className="column left">
         <Searchbox setSearchResult={setSearchResult} categoryResult={categoryResult.map(([tag]) => tag)} inEditMode={inEditMode} />
         <Categories 
           setCategoryResult={setCategoryResult} 
@@ -57,6 +63,7 @@ const App = () => {
           inEditMode={inEditMode} 
           setInEditMode={setInEditMode}
         />
+        <Save selectedTags={selectedTags} />
       </div>
       <div className="column">
         <TagDisplay 
@@ -70,12 +77,15 @@ const App = () => {
           inEditMode={inEditMode}
         />
         <TagDisplay 
-          label="Selected Tags" 
+          label={inEditMode 
+            ? `Edit Category: ${_findActiveCat()}` 
+            : "Selected Tags:"} 
           tags={inEditMode ? categoryResult.map(([tag]) => '#' + tag) : selectedTags} 
           showChips={false}
           onSelect={(tag) => inEditMode ? selectTag(tag) : setSelectedTags(selectedTags.filter(item => item !== tag))}
           onDeselect={(tag) => inEditMode ? deselectTag(tag) : null} 
           inEditMode={inEditMode}
+          hideBtn={inEditMode ? true : false}
         />
       </div>
     </div>
