@@ -28,7 +28,7 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
       fetch(`/api/categories/${cat}`, {method: 'POST'})
         .then((response) => response.json())
         .then(data => {
-          setCategories(data)
+          setCategories(data.filter(([id, category]) => category !== "all"))
           setShowInput(false)
         })
         document.getElementById('add-cat-icon').classList.remove('active')
@@ -46,7 +46,7 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
     fetch('/api/categories')
       .then(response => response.json())
       .then(data => {
-        setCategories(data)
+        setCategories(data.filter(([id, category]) => category !== "all"))
       })
   }, [])
 
