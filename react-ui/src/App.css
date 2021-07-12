@@ -35,7 +35,7 @@ label,
   text-transform: capitalize;
 }
 
-input{
+input[type="text"]{
   border: 1px solid var(--light-grey);
   border-radius: 8px;
   font-size: 14px;
@@ -44,8 +44,41 @@ input{
   padding: 5px 10px;
 }
 
-input:focus{
+input[type="text"]:focus{
   outline: 2px solid var(--light-blue);
+}
+
+.media-count{
+  padding-top: 55px;
+}
+
+.radio{
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.radio .label{
+  margin: 0px;
+}
+
+.radio-btn{
+  width: 16px;
+  height: 16px;
+  border: 1px solid;
+  border-radius: 50px;
+  margin-right: 8px;
+}
+
+.checkmark{
+  width: 10px;
+  height: 10px;
+  background: black;
+  border-radius: 50px;
+  position: absolute;
+  left: 4px;
+  visibility: hidden;
 }
 
 .btn{
@@ -148,7 +181,7 @@ li{
   color: var(--light-blue);
 }
 
-#categories input{
+#categories input[type="text"]{
   margin-top: 6px;
 }
 

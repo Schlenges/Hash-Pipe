@@ -9,9 +9,9 @@ const Searchbox = ({setSearchResult, categoryResult, inEditMode}) => {
       .then(data => {
         if(!inEditMode){ 
           let result = categoryResult.length > 0 ? data.filter(([tag]) => categoryResult.includes(tag)) : data
-          setSearchResult(result.map(([tag]) => "#" + tag))
+          setSearchResult(result)
         } else{
-          setSearchResult(data.map(([tag]) => "#" + tag))
+          setSearchResult(data)
         }
       })
       

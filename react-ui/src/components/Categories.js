@@ -64,7 +64,7 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
       .then(response => response.json())
       .then(data => {
         setCategoryResult([])
-        setSearchResult(data.map(([tag]) => "#" + tag))
+        setSearchResult(data)
       })
     }
   }, [activeCats, setCategoryResult, setSearchResult])
@@ -89,7 +89,7 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
       </div>
       {showInput 
         ? <div>
-            <input id="category-input" />
+            <input type="text" id="category-input" />
             <button className="btn" onClick={addCategory}>Add</button>
           </div>
         : null

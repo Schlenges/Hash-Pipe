@@ -68,7 +68,7 @@ const Save = ({selectedTags}) => {
         Do you want to overwrite it?
       </div>
       <div id="save-file-input" style={{ visibility: showInput ? "visible" : "hidden" }}>
-        <input id="filename-input" placeholder="Enter filename"/>
+        <input type="text" id="filename-input" placeholder="Enter filename"/>
         <button id="save-btn" className="icon-btn" onClick={saveTags}>
           <FontAwesomeIcon className="icon" icon={faCheckCircle}/>
         </button>

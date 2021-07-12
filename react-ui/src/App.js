@@ -3,6 +3,7 @@ import TagDisplay from './components/TagDisplay.js'
 import Searchbox from './components/Searchbox.js'
 import Categories from './components/Categories.js'
 import Save from './components/Save.js'
+import MediaCount from './components/MediaCount.js'
 import './App.css'
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
   const [categoryResult, setCategoryResult] = useState([])
   const [selectedTags, setSelectedTags] = useState([])
   const [inEditMode, setInEditMode] = useState(false)
+  const [maxCount, setMaxCount] = useState(null)
 
   useEffect(() => {
     fetch('/api/')
@@ -75,6 +77,7 @@ const App = () => {
           onSelect={(tag) => selectTag(tag)}
           onDeselect={(tag) => deselectTag(tag)}
           inEditMode={inEditMode}
+          maxCount={maxCount}
         />
         <TagDisplay 
           label={inEditMode 
@@ -87,6 +90,9 @@ const App = () => {
           inEditMode={inEditMode}
           hideBtn={inEditMode ? true : false}
         />
+      </div>
+      <div className="column right">
+        <MediaCount setMaxCount={setMaxCount} maxCount={maxCount} />
       </div>
     </div>
   )
