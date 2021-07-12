@@ -224,7 +224,8 @@ li{
   border: 1px solid var(--light-grey);
   padding: 10px;
   position: relative;
-
+  overflow: auto;
+  
   height: 400px;
   width: 360px;
 }
