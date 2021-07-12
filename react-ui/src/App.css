@@ -1,6 +1,7 @@
 :root{
   --light-grey: rgba(194, 201, 209, 0.25);
   --light-blue: rgba(45, 156, 219, 0.25);
+  --medium-blue: rgba(45, 156, 219, 0.7);
   --blue: rgb(45, 156, 219);
   --text-default: rgb(59, 66, 86);
   --text-medium: rgb(59, 66, 86, 0.7);
@@ -66,7 +67,7 @@ input[type="text"]:focus{
 .radio-btn{
   width: 16px;
   height: 16px;
-  border: 1px solid;
+  border: 1px solid var(--text-light);
   border-radius: 50px;
   margin-right: 8px;
 }
@@ -79,6 +80,7 @@ input[type="text"]:focus{
   position: absolute;
   left: 4px;
   visibility: hidden;
+  background: var(--medium-blue);
 }
 
 .btn{
