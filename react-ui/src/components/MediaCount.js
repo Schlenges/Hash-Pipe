@@ -6,10 +6,13 @@ const MediaCount = ({maxCount, setMaxCount}) => {
 
   return (
     <div className="media-count">
-      {values.map(([text, value]) => 
-        <RadioButton key={text} text={text} handleClick={() => setMaxCount(value)} isSelected={value === maxCount} />
-      )}
-      <RadioButton key={"all"} text={"all"} handleClick={() => setMaxCount(null)} isSelected={null === maxCount} />
+      <div className="label">Filter by media count</div>
+        <div className="options">
+        {values.map(([text, value]) => 
+          <RadioButton key={text} text={text} handleClick={() => setMaxCount(value)} isSelected={value === maxCount} />
+        )}
+        <RadioButton key={"all"} text={"all"} handleClick={() => setMaxCount(null)} isSelected={null === maxCount} />
+      </div>
     </div>
   )
 }
