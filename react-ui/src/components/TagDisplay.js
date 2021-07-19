@@ -22,7 +22,7 @@ const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dyna
 
   useEffect(() => {
     if(!dynamicTags){ 
-      tags[0] === 'empty' ? setDisplay([]) : setDisplay(tags.map((tag) => [tag, false]))
+      tags.length <= 0 ? setDisplay([]) : setDisplay(tags.map((tag) => [tag, false]))
     } else {
       let [searchResult, categoryResult, selectedTags] = tags
       let categoryTags = categoryResult.map(([tag]) => tag)
@@ -31,7 +31,12 @@ const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dyna
       if(categoryResult.length > 0 && !inEditMode){
         filteredTags = searchResult.filter(([tag]) => categoryTags.includes(tag))
       } else {
-        filteredTags = searchResult
+        let activeCat = [...document.querySelectorAll('#categories .chip')].filter(el => el.classList.contains('selected'))
+        if(activeCat.length > 0 && !inEditMode){
+          filteredTags = []
+        } else {
+          filteredTags = searchResult
+        }
       }
 
       if(mediaCount){

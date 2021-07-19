@@ -7,7 +7,6 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
   const [categories, setCategories] = useState([])
   const [activeCats, setActiveCats] = useState([])
   const [showInput, setShowInput] = useState(false)
-  const [showIcon, setShowIcon] = useState(false)
 
   const onSelect = (category) => {
     inEditMode ? setActiveCats([category]) : setActiveCats([...activeCats, category])
@@ -18,13 +17,14 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
   }
 
   const openInput = () => {
+    setInEditMode(false)
     let classes = document.getElementById('add-cat-icon').classList
     classes.contains('active') ? classes.remove('active') : classes.add('active')
     showInput ? setShowInput(false) : setShowInput(true)
   }
 
   const addCategory = () => {
-    let cat = document.getElementById('category-input').value
+    let cat = document.getElementById('category-input').value.toLowerCase()
     if(cat.length > 0){
       fetch(`/api/categories/${cat}`, {method: 'POST'})
         .then((response) => response.json())
@@ -40,13 +40,10 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
     let cat = activeCats.length > 0 ? activeCats[0] : categories[0][1]
     setActiveCats([cat])
     setInEditMode(!inEditMode)
-    let classes = document.getElementById('edit-cat-icon').classList
-    classes.contains('active') ? classes.remove('active') : classes.add('active')
-    setShowIcon(!showIcon)
   }
 
   const removeCat = (id, category) => {
-    let remove = confirm(`Are you sure you want to delete the category ${category}?`) // eslint-disable-line
+    let remove = confirm(`Are you sure you want to delete the category "${category}"?`) // eslint-disable-line
     if(remove){
       fetch(`api/categories/${category}`, {method: 'DELETE'})
         .then((response) => response.json())
@@ -71,7 +68,7 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
       .then(response => response.json())
       .then(data => {
         [].concat(...data).length <= 0
-          ? setCategoryResult(['empty'])
+          ? setCategoryResult([]) // 'empty'
           : setCategoryResult([].concat(...data))
       })
     } else{
@@ -89,7 +86,7 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
       <div style={{ display: "flex", alignItems: "baseline" }}>
         <div className="label">Categories</div>
         <FontAwesomeIcon id="add-cat-icon" className="icon" icon={faPlus} onClick={openInput}/>
-        <FontAwesomeIcon id="edit-cat-icon" className="icon" icon={faEdit} onClick={editCategory}/>
+        <FontAwesomeIcon id="edit-cat-icon" className={`icon ${inEditMode ? 'active' : ''}`} icon={faEdit} onClick={editCategory}/>
       </div>
       <div className="chip-set">
         {categories.map(([id, category]) => 
@@ -99,7 +96,7 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
             isSelected={activeCats.includes(category)}
             onSelect={onSelect}
             onDeselect={onDeselect}
-            icon={showIcon}
+            icon={inEditMode}
             remove={() => removeCat(id, category)}
           />
         )}
