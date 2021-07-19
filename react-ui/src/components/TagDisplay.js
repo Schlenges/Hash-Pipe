@@ -17,7 +17,7 @@ const limit = (tags, amount) => {
 
 const _getRandom = (tags) => tags[Math.floor(Math.random()*tags.length)]
 
-const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dynamicTags, inEditMode, mediaCount, amount}) => {
+const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dynamicTags, inEditMode, mediaCount, amount, loading}) => {
   const [display, setDisplay] = useState([])
 
   useEffect(() => {
@@ -62,7 +62,9 @@ const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dyna
         showChips={showChips} 
         hideBtn={hideBtn} 
         onSelect={onSelect} 
-        onDeselect={onDeselect}/>
+        onDeselect={onDeselect}
+        loading={loading && dynamicTags}
+      />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import TagDisplay from './components/TagDisplay.js'
-import Searchbox from './components/Searchbox.js'
+import Searchbox from './components/SearchBox.js'
 import Categories from './components/Categories.js'
 import Save from './components/Save.js'
 import MediaCount from './components/MediaCount.js'
@@ -14,12 +14,14 @@ const App = () => {
   const [inEditMode, setInEditMode] = useState(false)
   const [mediaCount, setMediaCount] = useState(null)
   const [amount, setAmount] = useState(0)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetch('/api/')
       .then((response) => response.json())
       .then(data => {
-        setSelectedTags(data)
+        setLoading(false)
+        //setSelectedTags(data.map(([tag]) => '#' + tag))
         setSearchResult(data)
       })
   }, [])
@@ -60,7 +62,7 @@ const App = () => {
   return(
     <div id="app">
       <div className="column left">
-        <Searchbox setSearchResult={setSearchResult} categoryResult={categoryResult.map(([tag]) => tag)} inEditMode={inEditMode} />
+        <Searchbox setSearchResult={setSearchResult} categoryResult={categoryResult.map(([tag]) => tag)} inEditMode={inEditMode} loading={loading}/>
         <Categories 
           setCategoryResult={setCategoryResult} 
           setSearchResult={setSearchResult}
@@ -81,6 +83,7 @@ const App = () => {
           inEditMode={inEditMode}
           mediaCount={mediaCount}
           amount={amount}
+          loading={loading}
         />
         <TagDisplay 
           label={inEditMode 

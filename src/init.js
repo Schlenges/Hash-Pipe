@@ -26,7 +26,7 @@ module.exports = init = async (hashtagFile) => {
     // if no session, login and get/write session cookie
     let newData = await updateData(newTags)
     newData = newData.filter(item => item !== undefined)
-    newTags = newData.map((item) => Object.keys(item)[0])
+    newTags = newData //.map((item) => Object.keys(item)[0])
     addTagData(newData, tagDir)
   }
 

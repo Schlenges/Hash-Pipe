@@ -16,7 +16,8 @@ app.use(express.json())
 
 app.get('/api/', async (req, res) => {
   let newTags = await runApp('hashtags.txt')
-  res.json(newTags)
+  console.log(newTags.map(item => [].concat(...Object.entries(item))))
+  res.json(newTags.map(item => [].concat(...Object.entries(item))))
 })
 
 app.get('/api/search/tags', async (req, res) => {
