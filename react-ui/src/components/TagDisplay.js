@@ -29,7 +29,11 @@ const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dyna
       let filteredTags = []
 
       if(categoryResult.length > 0 && !inEditMode){
-        filteredTags = searchResult.filter(([tag]) => categoryTags.includes(tag))
+        if(searchResult.length > 0){
+          filteredTags = searchResult.filter(([tag]) => categoryTags.includes(tag))
+        } else{
+          filteredTags = categoryResult
+        }
       } else {
         let activeCat = [...document.querySelectorAll('#categories .chip')].filter(el => el.classList.contains('selected'))
         if(activeCat.length > 0 && !inEditMode){

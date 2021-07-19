@@ -23,7 +23,7 @@ const TextBox = ({hideBtn=false, tags, showChips, onSelect, onDeselect, loading}
         : <Button handleClick={buttonClick} text={inEdit ? 'done' : 'edit'} />
       }
       {loading 
-        ? <span>Retrieving new data...</span> 
+        ? <span>Looking for new data...</span> 
         : <div className="tags">
             {tags.map(([tag, isSelected]) => isChip 
               ? <Chip 

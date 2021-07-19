@@ -20,9 +20,9 @@ const App = () => {
     fetch('/api/')
       .then((response) => response.json())
       .then(data => {
-        setLoading(false)
         //setSelectedTags(data.map(([tag]) => '#' + tag))
         setSearchResult(data)
+        setLoading(false)
       })
   }, [])
 

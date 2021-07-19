@@ -65,12 +65,12 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
   useEffect(() => {
     if(activeCats.length > 0){
       fetch(`/api/search/${activeCats.map(cat => cat.toLowerCase()).join('&')}`)
-      .then(response => response.json())
-      .then(data => {
-        [].concat(...data).length <= 0
-          ? setCategoryResult([]) // 'empty'
-          : setCategoryResult([].concat(...data))
-      })
+        .then(response => response.json())
+        .then(data => {
+          [].concat(...data).length <= 0
+            ? setCategoryResult([]) // 'empty'
+            : setCategoryResult([].concat(...data))
+        })
     } else{
       fetch(`/api/search/tags?q=${document.getElementById("search-input").value}`)
       .then(response => response.json())
