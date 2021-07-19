@@ -202,6 +202,13 @@ li{
   outline: 2px solid var(--light-blue);
 }
 
+.selected-count{
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-size: 14px;
+}
+
 /* Edit Button */
 
 #edit-btn{

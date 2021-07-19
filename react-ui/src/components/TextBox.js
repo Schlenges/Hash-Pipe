@@ -34,6 +34,10 @@ const TextBox = ({hideBtn=false, tags, showChips, onSelect, onDeselect}) => {
             /> 
           : <li key={tag} >{tag}</li>)}
       </div>
+      {hideBtn
+        ? null
+        : <span className="selected-count">{tags.length}</span>
+      }
     </div>
   )
 }
