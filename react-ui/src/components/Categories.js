@@ -36,7 +36,8 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
   }
 
   const editCategory = () => {
-    setActiveCats([])
+    let cat = activeCats.length > 0 ? activeCats[0] : categories[0]
+    setActiveCats([cat])
     setInEditMode(!inEditMode)
     let classes = document.getElementById('edit-cat-icon').classList
     classes.contains('active') ? classes.remove('active') : classes.add('active')
