@@ -1,44 +1,63 @@
 import React, { useState, useEffect } from 'react'
 import TextBox from './TextBox.js'
 
-const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dynamicTags, inEditMode, maxCount}) => {
-  const [resultDisplay, setResultDisplay] = useState([])
+const limit = (tags, amount) => {
+  let randomTags = []
 
-  const prepare = (tags) => {
-    if(maxCount !== null){
-      tags = tags.filter(([tag, info]) => info.media_count <= maxCount)
-    }
-    return tags.map(([tag]) => "#" + tag)
+  for(let i = 0; i < amount; i++){
+    if(tags.length <= 0){ break }
+
+    let tag = _getRandom(tags)
+    randomTags.push(tag)
+    tags = tags.filter(item => item !== tag)
   }
+
+  return randomTags
+}
+
+const _getRandom = (tags) => tags[Math.floor(Math.random()*tags.length)]
+
+const TagDisplay = ({label, tags, showChips, hideBtn, onSelect, onDeselect, dynamicTags, inEditMode, mediaCount, amount}) => {
+  const [display, setDisplay] = useState([])
 
   useEffect(() => {
     if(!dynamicTags){ 
-      tags[0] === 'empty' ? setResultDisplay([]) : setResultDisplay(tags.map((tag) => [tag, false]))
-    } else{
+      tags[0] === 'empty' ? setDisplay([]) : setDisplay(tags.map((tag) => [tag, false]))
+    } else {
       let [searchResult, categoryResult, selectedTags] = tags
+      let categoryTags = categoryResult.map(([tag]) => tag)
+      let filteredTags = []
 
-      if(searchResult.length <= 0){
-        let result = prepare(categoryResult)
-        setResultDisplay(result.map((tag) => [tag, selectedTags.includes(tag)]))
-      } else{
-        let catTags = categoryResult.map(([tag]) => "#" + tag)
-
-        if(categoryResult.length > 0 && !inEditMode){
-          let result = prepare(searchResult)
-          result = result.filter((tag) => catTags.includes(tag))
-          setResultDisplay(result.map((tag) => [tag, selectedTags.includes(tag)]))
-        } else{
-          let result = prepare(searchResult)
-          setResultDisplay(result.map((tag) => [tag, inEditMode ? catTags.includes(tag) : selectedTags.includes(tag)]))
-        }
+      if(categoryResult.length > 0 && !inEditMode){
+        filteredTags = searchResult.filter(([tag]) => categoryTags.includes(tag))
+      } else {
+        filteredTags = searchResult
       }
+
+      if(mediaCount){
+        filteredTags = filteredTags.filter(([tag, info]) => info.media_count <= mediaCount)
+      }
+
+      filteredTags = filteredTags.map(([tag, info]) => "#" + tag)
+
+      if(amount > 0){
+        filteredTags = limit(filteredTags, amount)
+      }
+
+      categoryTags = categoryTags.map(tag => '#' + tag)
+      setDisplay(filteredTags.map(tag => [tag, inEditMode ? categoryTags.includes(tag) : selectedTags.includes(tag)]))
     }
   }, [tags]) // eslint-disable-line
 
   return(
     <div className="tag-display">
       <div className="label">{label}</div>
-      <TextBox tags={resultDisplay} showChips={showChips} hideBtn={hideBtn} onSelect={onSelect} onDeselect={onDeselect}/>
+      <TextBox 
+        tags={display} 
+        showChips={showChips} 
+        hideBtn={hideBtn} 
+        onSelect={onSelect} 
+        onDeselect={onDeselect}/>
     </div>
   )
 }

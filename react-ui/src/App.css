@@ -49,40 +49,6 @@ input[type="text"]:focus{
   outline: 2px solid var(--light-blue);
 }
 
-.media-count{
-  padding-top: 55px;
-}
-
-.radio{
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin-bottom: 8px;
-}
-
-.radio .label{
-  margin: 0px;
-}
-
-.radio-btn{
-  width: 16px;
-  height: 16px;
-  border: 1px solid var(--text-light);
-  border-radius: 50px;
-  margin-right: 8px;
-}
-
-.checkmark{
-  width: 10px;
-  height: 10px;
-  background: black;
-  border-radius: 50px;
-  position: absolute;
-  left: 4px;
-  visibility: hidden;
-  background: var(--medium-blue);
-}
-
 .btn{
   font-size: 16px;
   margin-left: 10px;
@@ -250,4 +216,60 @@ li{
 
 #edit-btn:hover{
   cursor: pointer;
+}
+
+
+/* Media Count */
+
+.media-count .label,
+.tag-count .label{
+  margin-bottom: 20px;
+}
+
+.radio{
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.radio .label{
+  margin: 0px;
+}
+
+.radio-btn{
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--text-light);
+  border-radius: 50px;
+  margin-right: 8px;
+}
+
+.checkmark{
+  width: 10px;
+  height: 10px;
+  background: black;
+  border-radius: 50px;
+  position: absolute;
+  left: 4px;
+  visibility: hidden;
+  background: var(--medium-blue);
+}
+
+.options{
+  margin-left: 8px;
+}
+
+
+/* Tag Count */
+.tag-count{
+  margin-top: 40px;
+}
+
+.tag-count input[type="number"]{
+  width: 50px;
+}
+
+.tag-count button{
+  margin-top: 8px;
 }
