@@ -13,7 +13,11 @@ module.exports = dirHelper = (tagDir, catDir) => ({
 
   removeCategory: function(category){
     let catId = catDir.getId(category)
-    getTagsByCategory(category).forEach(([tag]) => removeTagFromCategory(tag, catId))
+    let tags = tagDir.getAllArray().filter(([id, val]) => val.categories.includes(catId))
+    tags.forEach(([tag, info]) => {
+      info.categories = info.categories.filter(cat => cat != catId)
+    })
+    
     catDir.removeById(catId)
     this.writeData()
   },

@@ -7,6 +7,7 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
   const [categories, setCategories] = useState([])
   const [activeCats, setActiveCats] = useState([])
   const [showInput, setShowInput] = useState(false)
+  const [showIcon, setShowIcon] = useState(false)
 
   const onSelect = (category) => {
     inEditMode ? setActiveCats([category]) : setActiveCats([...activeCats, category])
@@ -36,11 +37,24 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
   }
 
   const editCategory = () => {
-    let cat = activeCats.length > 0 ? activeCats[0] : categories[0]
+    let cat = activeCats.length > 0 ? activeCats[0] : categories[0][1]
     setActiveCats([cat])
     setInEditMode(!inEditMode)
     let classes = document.getElementById('edit-cat-icon').classList
     classes.contains('active') ? classes.remove('active') : classes.add('active')
+    setShowIcon(!showIcon)
+  }
+
+  const removeCat = (id, category) => {
+    let remove = confirm(`Are you sure you want to delete the category ${category}?`) // eslint-disable-line
+    if(remove){
+      fetch(`api/categories/${category}`, {method: 'DELETE'})
+        .then((response) => response.json())
+        .then(data => {
+          setCategories(data.filter(([id, category]) => category !== "all"))
+          setActiveCats([categories[0][1]])
+        })
+    }
   }
 
   useEffect(() => {
@@ -85,6 +99,8 @@ const Categories = ({setCategoryResult, setSearchResult, inEditMode, setInEditMo
             isSelected={activeCats.includes(category)}
             onSelect={onSelect}
             onDeselect={onDeselect}
+            icon={showIcon}
+            remove={() => removeCat(id, category)}
           />
         )}
       </div>

@@ -134,6 +134,10 @@ li{
   font-size: 12px;
 }
 
+.chip-set svg:hover{
+  color: red;
+}
+
 #add-cat-icon{
   margin-left: 6px; 
   cursor: pointer;

@@ -60,6 +60,11 @@ app.post('/api/tags/save', async (req, res) => {
   res.json(isSaved)
 })
 
+app.delete('/api/categories/:category', async (req, res) => {
+  await dir.removeCategory(req.params.category)
+  res.json(catDir.getAllArray())
+})
+
 app.delete('/api/tags/:tag/:category', async (req, res) => {
   let catId = catDir.getId(req.params.category)
   await dir.removeTagFromCategory(req.params.tag, catId)
