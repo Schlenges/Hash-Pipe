@@ -17,7 +17,8 @@ const cleanup = (tags, file) => {
 const getTags = (file) => { 
   try {
     let data = fs.readFileSync(file, 'utf8')
-    let tags = _extract(data).map(tag => tag.slice(1))
+    let tags = _extract(data)
+    tags = tags !== null ? tags.map(tag => tag.slice(1)) : []
     return _removeDuplicates(tags)
   } catch (err) {
     console.log(err.message)
