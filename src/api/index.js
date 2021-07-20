@@ -1,11 +1,11 @@
 var express = require('express')
 var app = express()
-var runApp = require('../main.js')
+var runApp = require('../../main.js')
 
-const { tagData, categoryData } = require('../data.js')
-const Directory = require('../src/Directory.js')
-const tagsHelper = require('../src/helpers/tags.js')
-const dirHelper = require('../src/helpers/dirs.js')
+const { tagData, categoryData } = require('../../data.js')
+const Directory = require('../Directory.js')
+const tagsHelper = require('../helpers/tags.js')
+const dirHelper = require('../helpers/dirs.js')
 
 let tagDir = new Directory(tagData)
 let catDir = new Directory(categoryData)
@@ -13,6 +13,8 @@ const tags = tagsHelper(tagDir)
 const dir = dirHelper(tagDir, catDir)
 
 app.use(express.json())
+
+app.get('/favicon.ico', (req, res) => {})
 
 app.get('/api/', async (req, res) => {
   let newTags = await runApp('hashtags.txt')
