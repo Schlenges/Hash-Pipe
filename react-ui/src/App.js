@@ -24,6 +24,11 @@ const App = () => {
         setSearchResult(data)
         setLoading(false)
       })
+
+    return window.addEventListener("beforeunload", function(event) { 
+      event.preventDefault()
+      fetch('/api/stop')
+    })
   }, [])
 
   const _findActiveCat = () => {

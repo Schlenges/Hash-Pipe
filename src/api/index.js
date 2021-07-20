@@ -14,11 +14,13 @@ const dir = dirHelper(tagDir, catDir)
 
 app.use(express.json())
 
-app.get('/favicon.ico', (req, res) => {})
-
-app.get('/api/', async (req, res) => {
+app.get('/api', async (req, res) => {
   let newTags = await runApp('hashtags.txt')
   res.json(newTags.map(item => [].concat(...Object.entries(item))))
+})
+
+app.get('/api/stop', (req, res) => {
+  process.exit()
 })
 
 app.get('/api/search/tags', async (req, res) => {
